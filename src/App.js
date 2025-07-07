@@ -101,7 +101,7 @@ const NewsletterSignup = () => {
   );
 };
 
-// Footer Component
+// Footer Component with FTC Disclosure
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white">
@@ -127,11 +127,11 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-semibold mb-4">Company</h3>
+            <h3 className="font-semibold mb-4">Legal</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="/about" className="hover:text-white transition-colors">About</a></li>
+              <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
               <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="/submit" className="hover:text-white transition-colors">Submit Tool</a></li>
             </ul>
           </div>
           
@@ -142,8 +142,14 @@ const Footer = () => {
           </div>
         </div>
         
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 saastools.digital. Powered by AI Board. All rights reserved.</p>
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <div className="text-center text-gray-400 space-y-2">
+            <p>&copy; 2025 saastools.digital. Powered by AI Board. All rights reserved.</p>
+            <p className="text-sm">
+              <strong>FTC Disclosure:</strong> This website contains affiliate links. We may earn a commission 
+              when you click on these links and make a purchase. This comes at no additional cost to you.
+            </p>
+          </div>
         </div>
       </div>
     </footer>
