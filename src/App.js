@@ -1,301 +1,407 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import "./App.css";
 
-// Backend URL - YOUR RAILWAY API
-const BACKEND_URL = "https://fastapi-production-e3a5.up.railway.app";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 // Header Component
 const Header = ({ currentPage, setCurrentPage }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
-  const navigate = (page) => {
-    setCurrentPage(page);
-    window.history.pushState({}, '', page === 'home' ? '/' : `/${page}`);
-    setIsMenuOpen(false);
-  };
-  
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <button onClick={() => navigate('home')} className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-teal-500 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-sm">ST</span>
-            </div>
-            <span className="font-bold text-xl text-gray-900">saastools.digital</span>
-          </button>
-          
-          <nav className="hidden md:flex space-x-8">
-            <button onClick={() => navigate('home')} className={`transition-colors ${currentPage === 'home' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}>Home</button>
-            <button onClick={() => navigate('tools')} className={`transition-colors ${currentPage === 'tools' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}>Browse Tools</button>
-            <button onClick={() => navigate('blog')} className={`transition-colors ${currentPage === 'blog' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}>Blog</button>
-            <button onClick={() => navigate('about')} className={`transition-colors ${currentPage === 'about' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}>About</button>
-            <button onClick={() => navigate('contact')} className={`transition-colors ${currentPage === 'contact' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'}`}>Contact</button>
-          </nav>
-          
-          <button 
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-        </div>
-        
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t">
-            <nav className="flex flex-col space-y-2">
-              <button onClick={() => navigate('home')} className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2">Home</button>
-              <button onClick={() => navigate('tools')} className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2">Browse Tools</button>
-              <button onClick={() => navigate('blog')} className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2">Blog</button>
-              <button onClick={() => navigate('about')} className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2">About</button>
-              <button onClick={() => navigate('contact')} className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2">Contact</button>
-            </nav>
+    <header style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '1rem 0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ 
+            width: '40px', 
+            height: '40px', 
+            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', 
+            borderRadius: '8px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            color: 'white',
+            fontWeight: 'bold',
+            fontSize: '18px'
+          }}>
+            ST
           </div>
-        )}
+          <span style={{ marginLeft: '12px', fontSize: '24px', fontWeight: 'bold', color: '#1f2937' }}>
+            SaaS Tools Digital
+          </span>
+        </div>
+        <nav style={{ display: 'flex', gap: '2rem' }}>
+          <button 
+            onClick={() => setCurrentPage('home')} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'home' ? '#3b82f6' : '#6b7280',
+              fontWeight: '500',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            Home
+          </button>
+          <button 
+            onClick={() => setCurrentPage('tools')} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'tools' ? '#3b82f6' : '#6b7280',
+              fontWeight: '500',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            Browse Tools
+          </button>
+          <button 
+            onClick={() => setCurrentPage('blog')} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'blog' ? '#3b82f6' : '#6b7280',
+              fontWeight: '500',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            Blog
+          </button>
+          <button 
+            onClick={() => setCurrentPage('about')} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'about' ? '#3b82f6' : '#6b7280',
+              fontWeight: '500',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            About
+          </button>
+          <button 
+            onClick={() => setCurrentPage('contact')} 
+            style={{ 
+              background: 'none', 
+              border: 'none', 
+              color: currentPage === 'contact' ? '#3b82f6' : '#6b7280',
+              fontWeight: '500',
+              cursor: 'pointer',
+              fontSize: '16px'
+            }}
+          >
+            Contact
+          </button>
+        </nav>
       </div>
     </header>
   );
 };
 
-// Newsletter Signup Component
-const NewsletterSignup = () => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [status, setStatus] = useState('');
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${API}/newsletter/subscribe`, { email, name });
-      setStatus('success');
-      setEmail('');
-      setName('');
-    } catch (error) {
-      setStatus('error');
-    }
-  };
-  
+// Footer Component  
+const Footer = () => {
   return (
-    <form onSubmit={handleSubmit} className="space-y-3">
-      <input
-        type="text"
-        placeholder="Your name (optional)"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <input
-        type="email"
-        placeholder="Your email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-        className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        type="submit"
-        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-      >
-        Subscribe
-      </button>
-      {status === 'success' && <p className="text-green-400 text-sm">Successfully subscribed!</p>}
-      {status === 'error' && <p className="text-red-400 text-sm">Subscription failed. Please try again.</p>}
-    </form>
-  );
-};
-
-// Footer Component with FTC Disclosure
-const Footer = ({ setCurrentPage }) => {
-  const navigate = (page) => {
-    setCurrentPage(page);
-    window.history.pushState({}, '', page === 'home' ? '/' : `/${page}`);
-    window.scrollTo(0, 0);
-  };
-  
-  return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer style={{ background: '#1f2937', color: 'white', padding: '3rem 0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem', marginBottom: '2rem' }}>
           <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-teal-500 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">ST</span>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+              <div style={{ 
+                width: '40px', 
+                height: '40px', 
+                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)', 
+                borderRadius: '8px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 'bold',
+                fontSize: '18px'
+              }}>
+                ST
               </div>
-              <span className="font-bold text-lg">saastools.digital</span>
+              <span style={{ marginLeft: '12px', fontSize: '20px', fontWeight: 'bold' }}>
+                SaaS Tools Digital
+              </span>
             </div>
-            <p className="text-gray-400">Discover the world's best SaaS tools — curated by AI.</p>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4">Explore</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li><button onClick={() => navigate('tools')} className="hover:text-white transition-colors">Browse Tools</button></li>
-              <li><button onClick={() => navigate('blog')} className="hover:text-white transition-colors">Blog</button></li>
-              <li><button onClick={() => navigate('categories')} className="hover:text-white transition-colors">Categories</button></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li><button onClick={() => navigate('privacy')} className="hover:text-white transition-colors">Privacy Policy</button></li>
-              <li><button onClick={() => navigate('terms')} className="hover:text-white transition-colors">Terms of Service</button></li>
-              <li><button onClick={() => navigate('contact')} className="hover:text-white transition-colors">Contact</button></li>
-            </ul>
-          </div>
-          
-          <div>
-            <h3 className="font-semibold mb-4">Stay Updated</h3>
-            <p className="text-gray-400 mb-4">Get the latest SaaS insights and tool recommendations.</p>
-            <NewsletterSignup />
-          </div>
-        </div>
-        
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="text-center text-gray-400 space-y-2">
-            <p>&copy; 2025 saastools.digital. Powered by AI Board. All rights reserved.</p>
-            <p className="text-sm">
-              <strong>FTC Disclosure:</strong> This website contains affiliate links. We may earn a commission 
-              when you click on these links and make a purchase. This comes at no additional cost to you.
+            <p style={{ color: '#9ca3af', lineHeight: '1.6' }}>
+              Your ultimate guide to finding the perfect SaaS tools for your business. 
+              AI-powered reviews and recommendations you can trust.
             </p>
           </div>
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '1rem' }}>Quick Links</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Browse Tools</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Blog</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>About</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '1rem' }}>Categories</h3>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>CRM Software</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Project Management</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Email Marketing</a></li>
+              <li style={{ marginBottom: '0.5rem' }}><a href="#" style={{ color: '#9ca3af', textDecoration: 'none' }}>Analytics Tools</a></li>
+            </ul>
+          </div>
+        </div>
+        <div style={{ borderTop: '1px solid #374151', paddingTop: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+          <p style={{ color: '#9ca3af', margin: 0 }}>© 2025 SaaS Tools Digital. All rights reserved.</p>
+          <p style={{ color: '#9ca3af', margin: 0 }}>🤖 Powered by AI • <a href="/privacy" style={{ color: '#9ca3af' }}>Privacy</a> • <a href="/terms" style={{ color: '#9ca3af' }}>Terms</a></p>
+        </div>
+        <div style={{ marginTop: '1rem', padding: '1rem', background: '#374151', borderRadius: '8px' }}>
+          <p style={{ fontSize: '14px', color: '#9ca3af', margin: 0 }}>
+            <strong>FTC Disclosure:</strong> This website contains affiliate links. We may earn a commission when you make a purchase through these links at no additional cost to you.
+          </p>
         </div>
       </div>
     </footer>
   );
 };
 
-// Tool Card Component
-const ToolCard = ({ tool }) => {
+// Blog Post Component - FIXED TO RENDER HTML
+const BlogPost = ({ slug, onBackToBlog }) => {
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchPost();
+  }, [slug]);
+
+  const fetchPost = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${API}/blog/${slug}`);
+      if (response.ok) {
+        const data = await response.json();
+        setPost(data);
+      } else {
+        setError('Post not found');
+      }
+    } catch (err) {
+      setError('Failed to load post');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div style={{ fontSize: '18px', color: '#6b7280' }}>Loading article...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div style={{ fontSize: '18px', color: '#ef4444', marginBottom: '1rem' }}>{error}</div>
+        <button onClick={onBackToBlog} style={{ 
+          background: '#3b82f6', 
+          color: 'white', 
+          padding: '0.5rem 1rem', 
+          border: 'none', 
+          borderRadius: '6px', 
+          cursor: 'pointer' 
+        }}>
+          Back to Blog
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow p-6">
-      <div className="flex items-center mb-4">
-        <img 
-          src={tool.logo_url} 
-          alt={tool.name}
-          className="w-12 h-12 rounded-lg mr-4"
-          onError={(e) => {
-            e.target.src = `https://ui-avatars.com/api/?name=${tool.name}&background=random`;
-          }}
-        />
-        <div>
-          <h3 className="font-semibold text-lg text-gray-900">{tool.name}</h3>
-          <div className="flex items-center">
-            <div className="flex text-yellow-400">
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} className={`w-4 h-4 ${i < Math.floor(tool.rating) ? 'fill-current' : 'text-gray-300'}`} viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                </svg>
-              ))}
-            </div>
-            <span className="text-sm text-gray-500 ml-1">({tool.rating})</span>
-          </div>
+    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+      {/* Header */}
+      <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '1rem 0' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '0 1rem' }}>
+          <button onClick={onBackToBlog} style={{ 
+            background: 'none', 
+            border: 'none', 
+            color: '#3b82f6', 
+            cursor: 'pointer', 
+            fontSize: '16px',
+            marginBottom: '1rem'
+          }}>
+            ← Back to Blog
+          </button>
         </div>
       </div>
-      
-      <p className="text-gray-600 mb-4">{tool.short_description}</p>
-      
-      <div className="flex flex-wrap gap-2 mb-4">
-        {tool.tags && tool.tags.slice(0, 3).map((tag) => (
-          <span key={tag} className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-            {tag}
-          </span>
-        ))}
-      </div>
-      
-      <div className="flex justify-between items-center">
-        <span className="text-sm font-medium text-gray-900">{tool.pricing_type}</span>
-        <a 
-          href={tool.affiliate_link || tool.website_url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-md transition-colors"
-        >
-          View Tool
-        </a>
+
+      {/* Article */}
+      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem 1rem' }}>
+        <article style={{ background: 'white', borderRadius: '12px', padding: '2rem', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          {/* Featured Image */}
+          <img 
+            src={post.featured_image} 
+            alt={post.title}
+            style={{ 
+              width: '100%', 
+              height: '300px', 
+              objectFit: 'cover', 
+              borderRadius: '8px', 
+              marginBottom: '2rem' 
+            }}
+          />
+
+          {/* Meta Info */}
+          <div style={{ marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', fontSize: '14px', color: '#6b7280' }}>
+              <span>{post.author}</span>
+              <span>•</span>
+              <span>{new Date(post.published_at).toLocaleDateString()}</span>
+              <span>•</span>
+              <span style={{ background: '#dbeafe', color: '#1e40af', padding: '0.25rem 0.5rem', borderRadius: '4px' }}>
+                {post.category}
+              </span>
+            </div>
+            <div style={{ marginTop: '0.5rem', display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {post.tags.map((tag, index) => (
+                <span key={index} style={{ 
+                  background: '#f3f4f6', 
+                  color: '#374151', 
+                  padding: '0.25rem 0.5rem', 
+                  borderRadius: '4px', 
+                  fontSize: '12px' 
+                }}>
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* FIXED: Render HTML content properly */}
+          <div 
+            style={{ 
+              lineHeight: '1.7', 
+              fontSize: '16px', 
+              color: '#374151' 
+            }}
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
+        </article>
       </div>
     </div>
   );
 };
 
-// Blog List Component
-const BlogList = ({ setCurrentPage, setBlogSlug }) => {
+// Blog List Component - FIXED TO RENDER HTML EXCERPTS  
+const BlogList = ({ onPostClick }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     fetchPosts();
   }, []);
-  
+
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(`${API}/blog`);
-      setPosts(response.data);
+      const response = await fetch(`${API}/blog?limit=20`);
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data);
+      }
     } catch (error) {
       console.error('Error fetching posts:', error);
     } finally {
       setLoading(false);
     }
   };
-  
-  const viewPost = (slug) => {
-    setBlogSlug(slug);
-    setCurrentPage('blogpost');
-    window.history.pushState({}, '', `/blog/${slug}`);
-    window.scrollTo(0, 0);
-  };
-  
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <div style={{ padding: '2rem', textAlign: 'center' }}>
+        <div style={{ fontSize: '18px', color: '#6b7280' }}>Loading blog posts...</div>
       </div>
     );
   }
-  
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">SaaS Insights & Expert Reviews</h1>
-          <p className="text-gray-600">AI-powered analysis of the best SaaS tools for your business</p>
+    <div style={{ minHeight: '100vh', background: '#f9fafb' }}>
+      {/* Header */}
+      <div style={{ background: 'white', borderBottom: '1px solid #e5e7eb', padding: '3rem 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: 'bold', color: '#1f2937', marginBottom: '1rem' }}>
+            SaaS Tools Blog
+          </h1>
+          <p style={{ fontSize: '20px', color: '#6b7280', maxWidth: '600px', margin: '0 auto' }}>
+            AI-powered insights, reviews, and guides to help you choose the perfect software for your business.
+          </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      </div>
+
+      {/* Blog Posts Grid */}
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '3rem 1rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
           {posts.map((post) => (
-            <div key={post.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer" onClick={() => viewPost(post.slug)}>
+            <article key={post.id} style={{ 
+              background: 'white', 
+              borderRadius: '12px', 
+              overflow: 'hidden', 
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              transition: 'transform 0.2s',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+            onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+            onClick={() => onPostClick(post.slug)}>
+              
               <img 
                 src={post.featured_image} 
                 alt={post.title}
-                className="w-full h-48 object-cover"
+                style={{ width: '100%', height: '200px', objectFit: 'cover' }}
               />
-              <div className="p-6">
-                <div className="flex items-center text-sm text-gray-500 mb-2">
-                  <span>{post.author}</span>
-                  <span className="mx-2">•</span>
-                  <span>{new Date(post.published_at).toLocaleDateString()}</span>
-                  <span className="mx-2">•</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
+              
+              <div style={{ padding: '1.5rem' }}>
+                <div style={{ marginBottom: '1rem' }}>
+                  <span style={{ 
+                    background: '#dbeafe', 
+                    color: '#1e40af', 
+                    padding: '0.25rem 0.5rem', 
+                    borderRadius: '4px', 
+                    fontSize: '12px', 
+                    fontWeight: '500' 
+                  }}>
                     {post.category}
                   </span>
                 </div>
-                <h3 className="font-semibold text-lg text-gray-900 mb-2">{post.title}</h3>
-                <p className="text-gray-600 mb-4">{post.excerpt}</p>
-                <div className="flex flex-wrap gap-1 mb-4">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <span key={tag} className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="text-blue-600 hover:text-blue-700 font-medium">
-                  Read Full Review →
+                
+                <h2 style={{ 
+                  fontSize: '20px', 
+                  fontWeight: 'bold', 
+                  color: '#1f2937', 
+                  marginBottom: '0.5rem',
+                  lineHeight: '1.3'
+                }}>
+                  {post.title}
+                </h2>
+                
+                {/* FIXED: Render HTML excerpt properly */}
+                <div 
+                  style={{ 
+                    color: '#6b7280', 
+                    marginBottom: '1rem',
+                    fontSize: '14px',
+                    lineHeight: '1.5'
+                  }}
+                  dangerouslySetInnerHTML={{ 
+                    __html: post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt 
+                  }}
+                />
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px', color: '#9ca3af' }}>
+                  <span>{new Date(post.published_at).toLocaleDateString()}</span>
+                  <span style={{ color: '#3b82f6', fontWeight: '500' }}>Read Full Review →</span>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
@@ -303,275 +409,387 @@ const BlogList = ({ setCurrentPage, setBlogSlug }) => {
   );
 };
 
-// Blog Post Detail Component
-const BlogPost = ({ slug, setCurrentPage }) => {
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  
-  useEffect(() => {
-    if (slug) {
-      fetchPost();
-    }
-  }, [slug]);
-  
-  const fetchPost = async () => {
+// Newsletter Signup Component
+const NewsletterSignup = () => {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = await axios.get(`${API}/blog/${slug}`);
-      setPost(response.data);
+      const response = await fetch(`${API}/newsletter/subscribe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+
+      if (response.ok) {
+        setStatus('success');
+        setEmail('');
+      } else {
+        setStatus('error');
+      }
     } catch (error) {
-      console.error('Error fetching post:', error);
-    } finally {
-      setLoading(false);
+      setStatus('error');
     }
   };
-  
-  const backToBlog = () => {
-    setCurrentPage('blog');
-    window.history.pushState({}, '', '/blog');
-    window.scrollTo(0, 0);
-  };
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
-  
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Post Not Found</h1>
-          <button onClick={backToBlog} className="text-blue-600 hover:text-blue-700">← Back to Blog</button>
-        </div>
-      </div>
-    );
-  }
-  
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <button onClick={backToBlog} className="text-blue-600 hover:text-blue-700 mb-8 inline-flex items-center">
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Blog
-        </button>
+    <div style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', padding: '3rem 0' }}>
+      <div style={{ maxWidth: '600px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
+        <h2 style={{ fontSize: '32px', fontWeight: 'bold', color: 'white', marginBottom: '1rem' }}>
+          Stay Updated with the Latest SaaS Insights
+        </h2>
+        <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.9)', marginBottom: '2rem' }}>
+          Get weekly AI-powered reviews and recommendations delivered to your inbox.
+        </p>
         
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <img 
-            src={post.featured_image} 
-            alt={post.title}
-            className="w-full h-64 object-cover"
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '1rem', maxWidth: '400px', margin: '0 auto' }}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            required
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              borderRadius: '6px',
+              border: 'none',
+              fontSize: '16px'
+            }}
           />
-          
-          <div className="p-8">
-            <div className="flex items-center text-sm text-gray-500 mb-4">
-              <span>{post.author}</span>
-              <span className="mx-2">•</span>
-              <span>{new Date(post.published_at).toLocaleDateString()}</span>
-              <span className="mx-2">•</span>
-              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">
-                {post.category}
-              </span>
-            </div>
-            
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">{post.title}</h1>
-            
-            <div className="flex flex-wrap gap-2 mb-6">
-              {post.tags.map((tag) => (
-                <span key={tag} className="bg-gray-100 text-gray-700 text-sm px-3 py-1 rounded-full">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-            
-            <div className="prose prose-lg max-w-none">
-              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                {post.content}
-              </div>
-            </div>
-          </div>
-        </article>
+          <button
+            type="submit"
+            style={{
+              background: '#1f2937',
+              color: 'white',
+              padding: '0.75rem 1.5rem',
+              border: 'none',
+              borderRadius: '6px',
+              cursor: 'pointer',
+              fontWeight: '500'
+            }}
+          >
+            Subscribe
+          </button>
+        </form>
+        
+        {status === 'success' && (
+          <p style={{ color: 'white', marginTop: '1rem' }}>Thanks for subscribing!</p>
+        )}
+        {status === 'error' && (
+          <p style={{ color: '#fecaca', marginTop: '1rem' }}>Something went wrong. Please try again.</p>
+        )}
       </div>
     </div>
   );
 };
 
+// Tool Card Component
+const ToolCard = ({ tool }) => (
+  <div style={{ 
+    background: 'white', 
+    borderRadius: '12px', 
+    padding: '1.5rem', 
+    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+    transition: 'transform 0.2s'
+  }}
+  onMouseEnter={(e) => e.target.style.transform = 'translateY(-4px)'}
+  onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}>
+    
+    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+      <img src={tool.logo_url} alt={tool.name} style={{ width: '48px', height: '48px', borderRadius: '8px', marginRight: '1rem' }} />
+      <div>
+        <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#1f2937', margin: 0 }}>{tool.name}</h3>
+        <span style={{ background: '#dbeafe', color: '#1e40af', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '12px' }}>
+          {tool.category}
+        </span>
+      </div>
+    </div>
+    
+    <p style={{ color: '#6b7280', marginBottom: '1rem', lineHeight: '1.5' }}>{tool.short_description}</p>
+    
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <span style={{ color: '#fbbf24', marginRight: '0.5rem' }}>★★★★★</span>
+        <span style={{ fontSize: '14px', color: '#6b7280' }}>{tool.rating}</span>
+      </div>
+      <span style={{ fontSize: '14px', fontWeight: '500', color: '#1f2937' }}>{tool.pricing_type}</span>
+    </div>
+    
+    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+      {tool.tags.slice(0, 3).map((tag, index) => (
+        <span key={index} style={{ background: '#f3f4f6', color: '#374151', padding: '0.25rem 0.5rem', borderRadius: '4px', fontSize: '12px' }}>
+          {tag}
+        </span>
+      ))}
+    </div>
+    
+    <a 
+      href={tool.affiliate_link || tool.website_url} 
+      target="_blank" 
+      rel="noopener noreferrer"
+      style={{ 
+        display: 'block', 
+        width: '100%', 
+        background: '#3b82f6', 
+        color: 'white', 
+        padding: '0.75rem', 
+        textAlign: 'center', 
+        textDecoration: 'none', 
+        borderRadius: '6px', 
+        fontWeight: '500',
+        transition: 'background 0.2s'
+      }}
+      onMouseEnter={(e) => e.target.style.background = '#2563eb'}
+      onMouseLeave={(e) => e.target.style.background = '#3b82f6'}
+    >
+      Try {tool.name} →
+    </a>
+  </div>
+);
+
 // Home Page Component
-const HomePage = () => {
-  const [stats, setStats] = useState({});
+const HomePage = ({ onBrowseTools, onBlogClick }) => {
+  const [stats, setStats] = useState({ tools_count: 0, blog_posts_count: 0 });
   const [tools, setTools] = useState([]);
-  const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
-    fetchData();
+    fetchStats();
+    fetchFeaturedTools();
   }, []);
-  
-  const fetchData = async () => {
+
+  const fetchStats = async () => {
     try {
-      // Fetch stats
-      const statsResponse = await axios.get(`${API}/stats`);
-      setStats(statsResponse.data);
-      
-      // Fetch tools
-      const toolsResponse = await axios.get(`${API}/tools?limit=6`);
-      setTools(toolsResponse.data);
-      
+      const response = await fetch(`${API}/stats`);
+      if (response.ok) {
+        const data = await response.json();
+        setStats(data);
+      }
     } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
+      console.error('Error fetching stats:', error);
     }
   };
-  
+
+  const fetchFeaturedTools = async () => {
+    try {
+      const response = await fetch(`${API}/tools?limit=6`);
+      if (response.ok) {
+        const data = await response.json();
+        setTools(data);
+      }
+    } catch (error) {
+      console.error('Error fetching tools:', error);
+    }
+  };
+
   return (
-    <>
+    <div style={{ minHeight: '100vh' }}>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-teal-600 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Discover the World's Best <span className="text-teal-300">SaaS Tools</span>
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto">
-              Curated by AI. Reviewed by experts. Find the perfect software solution for your business needs.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors">
-                Browse Tools
-              </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold py-3 px-8 rounded-lg transition-colors">
-                Submit a Tool
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Stats Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">{stats.tools_count || 0}+</div>
-              <div className="text-gray-600">SaaS Tools</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">{stats.blog_posts_count || 0}+</div>
-              <div className="text-gray-600">Expert Reviews</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-blue-600 mb-2">{stats.submissions_count || 0}+</div>
-              <div className="text-gray-600">User Submissions</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Featured Tools */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Featured SaaS Tools</h2>
-            <p className="text-gray-600">Discover the most popular and highest-rated tools</p>
-          </div>
-          
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="text-gray-600 mt-4">Loading tools...</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {tools.length > 0 ? (
-                tools.map((tool) => (
-                  <ToolCard key={tool.id} tool={tool} />
-                ))
-              ) : (
-                <div className="col-span-full text-center py-12">
-                  <p className="text-gray-600">No tools available yet. Check back soon!</p>
-                </div>
-              )}
-            </div>
-          )}
-          
-          <div className="text-center mt-12">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors">
-              View All Tools
+      <section style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white', padding: '6rem 0' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
+          <h1 style={{ fontSize: '56px', fontWeight: 'bold', marginBottom: '1.5rem', lineHeight: '1.1' }}>
+            Discover the Best <span style={{ background: 'linear-gradient(45deg, #fbbf24, #f59e0b)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>SaaS Tools</span>
+          </h1>
+          <p style={{ fontSize: '24px', marginBottom: '2rem', opacity: 0.9, maxWidth: '800px', margin: '0 auto 2rem' }}>
+            AI-powered reviews and recommendations to help you find the perfect software solutions for your business
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button 
+              onClick={onBrowseTools}
+              style={{ 
+                background: 'white', 
+                color: '#667eea', 
+                padding: '1rem 2rem', 
+                border: 'none', 
+                borderRadius: '8px', 
+                fontSize: '18px', 
+                fontWeight: '600', 
+                cursor: 'pointer',
+                transition: 'transform 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.target.style.transform = 'translateY(0)'}
+            >
+              Browse Tools
+            </button>
+            <button 
+              onClick={onBlogClick}
+              style={{ 
+                background: 'transparent', 
+                color: 'white', 
+                padding: '1rem 2rem', 
+                border: '2px solid white', 
+                borderRadius: '8px', 
+                fontSize: '18px', 
+                fontWeight: '600', 
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => { e.target.style.background = 'white'; e.target.style.color = '#667eea'; }}
+              onMouseLeave={(e) => { e.target.style.background = 'transparent'; e.target.style.color = 'white'; }}
+            >
+              Read Reviews
             </button>
           </div>
         </div>
       </section>
-      
-      {/* CTA Section */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">Ready to Discover Your Next Favorite Tool?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Join thousands of businesses already using our AI-curated recommendations.
-          </p>
-          <button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold py-3 px-8 rounded-lg transition-colors inline-block">
-            Start Exploring
-          </button>
+
+      {/* Stats Section */}
+      <section style={{ padding: '4rem 0', background: 'white' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', textAlign: 'center' }}>
+            <div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#3b82f6', marginBottom: '0.5rem' }}>
+                {stats.tools_count}+
+              </div>
+              <div style={{ fontSize: '18px', color: '#6b7280' }}>SaaS Tools Reviewed</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#10b981', marginBottom: '0.5rem' }}>
+                {stats.blog_posts_count}+
+              </div>
+              <div style={{ fontSize: '18px', color: '#6b7280' }}>In-Depth Articles</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#f59e0b', marginBottom: '0.5rem' }}>
+                AI
+              </div>
+              <div style={{ fontSize: '18px', color: '#6b7280' }}>Powered Reviews</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#8b5cf6', marginBottom: '0.5rem' }}>
+                24/7
+              </div>
+              <div style={{ fontSize: '18px', color: '#6b7280' }}>Updated Content</div>
+            </div>
+          </div>
         </div>
       </section>
-    </>
+
+      {/* Featured Tools */}
+      <section style={{ padding: '4rem 0', background: '#f9fafb' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <h2 style={{ fontSize: '36px', fontWeight: 'bold', color: '#1f2937', marginBottom: '1rem' }}>
+              Featured SaaS Tools
+            </h2>
+            <p style={{ fontSize: '18px', color: '#6b7280' }}>
+              Hand-picked tools that are making waves in the business world
+            </p>
+          </div>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem' }}>
+            {tools.map((tool) => (
+              <ToolCard key={tool.id} tool={tool} />
+            ))}
+          </div>
+          
+          <div style={{ textAlign: 'center' }}>
+            <button 
+              onClick={onBrowseTools}
+              style={{ 
+                background: '#3b82f6', 
+                color: 'white', 
+                padding: '1rem 2rem', 
+                border: 'none', 
+                borderRadius: '8px', 
+                fontSize: '16px', 
+                fontWeight: '600', 
+                cursor: 'pointer',
+                transition: 'background 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.background = '#2563eb'}
+              onMouseLeave={(e) => e.target.style.background = '#3b82f6'}
+            >
+              View All Tools →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Signup */}
+      <NewsletterSignup />
+    </div>
   );
 };
 
-// Main App Component with Routing
+// Main App Component
 function App() {
   const [currentPage, setCurrentPage] = useState('home');
-  const [blogSlug, setBlogSlug] = useState('');
-  
-  // Simple routing based on URL
+  const [currentSlug, setCurrentSlug] = useState('');
+
+  const handlePostClick = (slug) => {
+    setCurrentSlug(slug);
+    setCurrentPage('post');
+    window.history.pushState({}, '', `/blog/${slug}`);
+  };
+
+  const handleBackToBlog = () => {
+    setCurrentPage('blog');
+    window.history.pushState({}, '', '/blog');
+  };
+
+  const handleBrowseTools = () => {
+    setCurrentPage('tools');
+    window.history.pushState({}, '', '/tools');
+  };
+
+  const handleBlogClick = () => {
+    setCurrentPage('blog');
+    window.history.pushState({}, '', '/blog');
+  };
+
+  // Handle browser back/forward
   useEffect(() => {
-    const path = window.location.pathname;
-    if (path === '/blog') {
-      setCurrentPage('blog');
-    } else if (path.startsWith('/blog/')) {
-      setCurrentPage('blogpost');
-      setBlogSlug(path.replace('/blog/', ''));
-    } else {
-      setCurrentPage('home');
-    }
-    
-    // Handle browser back/forward
-    window.addEventListener('popstate', () => {
-      const newPath = window.location.pathname;
-      if (newPath === '/blog') {
-        setCurrentPage('blog');
-      } else if (newPath.startsWith('/blog/')) {
-        setCurrentPage('blogpost');
-        setBlogSlug(newPath.replace('/blog/', ''));
-      } else {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      if (path === '/' || path === '/home') {
         setCurrentPage('home');
+      } else if (path === '/tools') {
+        setCurrentPage('tools');
+      } else if (path === '/blog') {
+        setCurrentPage('blog');
+      } else if (path.startsWith('/blog/')) {
+        const slug = path.replace('/blog/', '');
+        setCurrentSlug(slug);
+        setCurrentPage('post');
+      } else if (path === '/about') {
+        setCurrentPage('about');
+      } else if (path === '/contact') {
+        setCurrentPage('contact');
       }
-    });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    handlePopState(); // Handle initial load
+
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
-  
-  const renderPage = () => {
+
+  const renderCurrentPage = () => {
     switch (currentPage) {
+      case 'tools':
+        return <div style={{ padding: '2rem', textAlign: 'center' }}>Tools page coming soon...</div>;
       case 'blog':
-        return <BlogList setCurrentPage={setCurrentPage} setBlogSlug={setBlogSlug} />;
-      case 'blogpost':
-        return <BlogPost slug={blogSlug} setCurrentPage={setCurrentPage} />;
+        return <BlogList onPostClick={handlePostClick} />;
+      case 'post':
+        return <BlogPost slug={currentSlug} onBackToBlog={handleBackToBlog} />;
+      case 'about':
+        return <div style={{ padding: '2rem', textAlign: 'center' }}>About page coming soon...</div>;
+      case 'contact':
+        return <div style={{ padding: '2rem', textAlign: 'center' }}>Contact page coming soon...</div>;
       default:
-        return <HomePage />;
+        return <HomePage onBrowseTools={handleBrowseTools} onBlogClick={handleBlogClick} />;
     }
   };
-  
+
   return (
     <div className="App">
       <Header currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <main>
-        {renderPage()}
-      </main>
-      <Footer setCurrentPage={setCurrentPage} />
+      {renderCurrentPage()}
+      <Footer />
     </div>
   );
 }
